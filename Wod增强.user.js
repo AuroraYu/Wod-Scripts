@@ -11,7 +11,7 @@
 // @require      https://code.jquery.com/jquery-3.3.1.min.js
 // @grant        GM_addStyle
 // @modifier     锦瑟
-// @version      2023.12.21.2
+// @version      2023.12.21.3
 // @updateURL    https://gitee.com/christophero/wod-scripts/raw/master/wod/Wod%E5%A2%9E%E5%BC%BA.user.js
 // @downloadURL  https://gitee.com/christophero/wod-scripts/raw/master/wod/Wod%E5%A2%9E%E5%BC%BA.user.js
 // ==/UserScript==
@@ -1439,9 +1439,14 @@ function renderDungeonSelector(dungeonList) {
         let startTime = null;
         let endTime = null;
         if(d.sysId == 351){
-          //神圣礼堂单独处理延后一天
-          startTime = dayjs(d.startTime).add(1, 'day');
-          endTime = dayjs(d.endTime).add(1, 'day');
+          //神圣礼堂单独处理
+		  if(startTime.isBefore(now)){
+			  startTime = dayjs(d.startTime).add(1, 'day');
+              endTime = dayjs(d.endTime).add(1, 'day');
+		  } else if (now.isBefore(startTime)){
+			  startTime = dayjs(d.startTime).subtract(2, 'day');
+              endTime = dayjs(d.endTime).subtract(2, 'day');
+		  }
       } else {
           startTime = dayjs(d.startTime);
           endTime = dayjs(d.endTime);
