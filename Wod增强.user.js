@@ -1436,8 +1436,8 @@ function renderDungeonSelector(dungeonList) {
       d.desc = "常";
       normalList.push(d);
     } else if (d.type == "L" && d.minLevel <= heroLv && d.maxLevel >= heroLv) {
-        let startTime = null;
-        let endTime = null;
+        let startTime = dayjs(d.startTime);
+        let endTime = dayjs(d.endTime);
         if(d.sysId == 351){
           //神圣礼堂单独处理
 		  if(startTime.isBefore(now)){
@@ -1447,9 +1447,6 @@ function renderDungeonSelector(dungeonList) {
 			  startTime = dayjs(d.startTime).subtract(2, 'day');
               endTime = dayjs(d.endTime).subtract(2, 'day');
 		  }
-      } else {
-          startTime = dayjs(d.startTime);
-          endTime = dayjs(d.endTime);
       }
       if (startTime.isBefore(now) && endTime.isAfter(now)) {
         d.desc = "今";
